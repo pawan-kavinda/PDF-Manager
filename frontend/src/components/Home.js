@@ -1,7 +1,8 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { PdfContext } from "../contexts/PdfContext";
-
+import useAuthContext from "../hooks/useAuthContext";
 const Home = () => {
+  const { user } = useAuthContext();
   const {
     setTitle,
     setPdfFile,
@@ -10,12 +11,16 @@ const Home = () => {
     onSubmit,
     title,
     fileInputRef,
+    authError,
   } = useContext(PdfContext);
+  const [error, setError] = useState("");
   const formRef = useRef(null);
 
   useEffect(() => {
-    fetchPdf();
-  }, [pdfList,fetchPdf]);
+    if (user) {
+      fetchPdf();
+    }
+  }, [fetchPdf, user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,9 +31,12 @@ const Home = () => {
   return (
     <div className="container mx-auto p-8 text-center">
       <h1 className="text-2xl font-bold">UPLOAD</h1>
-      <form ref={formRef} onSubmit={handleSubmit} className="mb-5 p-12 flex flex-col items-center">
+      <form
+        ref={formRef}
+        onSubmit={handleSubmit}
+        className="mb-5 p-12 flex flex-col items-center"
+      >
         <div className="flex flex-col mb-4 w-full md:w-[500px]">
-          
           <input
             id="title"
             type="text"
@@ -50,10 +58,15 @@ const Home = () => {
         </div>
         <button
           type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300 mt-2"
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300 mt-2 mb-4"
         >
           Submit
         </button>
+        {authError && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+            <span className="block sm:inline">{authError}</span>
+          </div>
+        )}
       </form>
       <div className="mx-auto">
         <h2 className="text-xl font-bold mb-2">COLLECTION</h2>
@@ -71,11 +84,16 @@ const Home = () => {
                 className="block"
               >
                 <img
-                  src={`http://localhost:3500/${val.thumbnail.replace(".png", "")}` + `-1.png`}
+                  src={
+                    `http://localhost:3500/${val.thumbnail.replace(
+                      ".png",
+                      ""
+                    )}` + `-1.png`
+                  }
                   alt={val.title}
                   className="w-full lg:h-[300px] md:h-[250px] rounded"
                 />
-                
+
                 <span className="block text-sm text-gray-500 font-bold p-3">{`Uploaded By : ${val.uplodedPerson}`}</span>
               </a>
             </div>
@@ -84,7 +102,6 @@ const Home = () => {
       </div>
     </div>
   );
-  
 };
 
 export default Home;

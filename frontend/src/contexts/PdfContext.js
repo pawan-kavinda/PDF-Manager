@@ -1,6 +1,7 @@
-import React, { createContext, useState, useRef } from "react";
+import React, { createContext, useState } from "react";
 import axios from "axios";
 import useAuthContext from "../hooks/useAuthContext";
+
 
 //-----------context-------------
 export const PdfContext = createContext();
@@ -11,22 +12,36 @@ const PdfContextProvider = ({ children }) => {
   const [title, setTitle] = useState("");
   const [pdfFile, setPdfFile] = useState(null);
   const [pdfList, setPdfList] = useState([]);
+  const [authError,setauthError] = useState('')
   const { user } = useAuthContext();
 
   const fetchPdf = async () => {
     try {
-      const pdflist = await axios.get("http://localhost:3500/");
-      setPdfList(pdflist.data);
+      const pdflist = await axios.get("http://localhost:3500/",{
+        headers : {
+          'Authorization' : `Bearer ${user.token}`
+        }
+      });
+      if(user){
+        setPdfList(pdflist.data);
+      }
+      
     } catch (error) {
       console.error("Error occured while fetching the files:", error.message);
     }
   };
 
   const onSubmit = async (e) => {
+
+    if(!user){
+      setauthError("You need to be signed in for uploading a pdf")
+      return
+    }
+
     const formData = new FormData();
     formData.append("title", title);
     formData.append("pdf", pdfFile);
-    formData.append("uplodedPerson", user.name);
+    formData.append("uplodedPerson", user.name);   
 
     try {
       const result = await axios.post(
@@ -35,6 +50,7 @@ const PdfContextProvider = ({ children }) => {
         {
           headers: {
             "Content-Type": "multipart/form-data",
+             Authorization: `Bearer ${user.token}`
           },
         }
       );
@@ -61,6 +77,7 @@ const PdfContextProvider = ({ children }) => {
         onSubmit,
         setTitle,
         setPdfFile,
+        authError
       }}
     >
       {children}
