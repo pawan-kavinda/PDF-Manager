@@ -9,10 +9,13 @@ export const PdfContext = createContext();
 // ---------context provider-----------
 
 const PdfContextProvider = ({ children }) => {
+  
   const [title, setTitle] = useState("");
   const [pdfFile, setPdfFile] = useState(null);
   const [pdfList, setPdfList] = useState([]);
   const [authError,setauthError] = useState('')
+  const [sizeError,setSizeError] = useState('')
+  const [inputValidation,setInputValidation] = useState('')
   const { user } = useAuthContext();
 
   const fetchPdf = async () => {
@@ -32,11 +35,30 @@ const PdfContextProvider = ({ children }) => {
   };
 
   const onSubmit = async (e) => {
+    setSizeError('')
+    setInputValidation('')
 
     if(!user){
       setauthError("You need to be signed in for uploading a pdf")
       return
     }
+
+    if (!pdfFile && !title) {
+      setInputValidation("Please fill the both input fields");
+      return;
+    }
+
+
+    const maxFileSize = 5 * 1024 * 1024; 
+    
+    if (pdfFile.size > maxFileSize) {
+      setSizeError("You can not upload files larger than 5mb");
+      return;
+    } else {
+      setSizeError(""); 
+    }
+
+    
 
     const formData = new FormData();
     formData.append("title", title);
@@ -77,7 +99,10 @@ const PdfContextProvider = ({ children }) => {
         onSubmit,
         setTitle,
         setPdfFile,
-        authError
+        authError,
+        inputValidation,
+        sizeError,
+       
       }}
     >
       {children}

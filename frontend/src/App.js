@@ -6,6 +6,7 @@ import Registration from './components/authentication/Registration';
 import Login from './components/authentication/Login';
 import Navbar from './components/Navbar';
 import useAuthContext from './hooks/useAuthContext';
+import PdfPage from './components/pdf_components/PdfPage';
 
 function App() {
   const {user} = useAuthContext()
@@ -16,6 +17,7 @@ function App() {
         <Route path="/" element={user?<Home />:<Navigate to='/signin'/>} />        
         <Route path="/signup" element={!user?<Registration />: <Navigate to='/'/>} />
         <Route path="/signin" element={!user?<Login/>:<Navigate to='/'/>} />
+        <Route path="/pdf" element={<PdfPage/>} />
       </Routes>
     
     </BrowserRouter>

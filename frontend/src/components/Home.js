@@ -1,19 +1,15 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { PdfContext } from "../contexts/PdfContext";
 import useAuthContext from "../hooks/useAuthContext";
+import PdfList from "./pdf_components/PdfList";
+
+
 const Home = () => {
   const { user } = useAuthContext();
   const {
-    setTitle,
-    setPdfFile,
-    pdfList,
-    fetchPdf,
-    onSubmit,
-    title,
-    fileInputRef,
-    authError,
-  } = useContext(PdfContext);
-  const [error, setError] = useState("");
+    setTitle,setPdfFile,fetchPdf,onSubmit,title, fileInputRef,authError,inputValidation,onClickPdf,setOnClickPdf,
+    sizeError} = useContext(PdfContext);
+ 
   const formRef = useRef(null);
 
   useEffect(() => {
@@ -56,6 +52,16 @@ const Home = () => {
             ref={fileInputRef}
           />
         </div>
+        {sizeError && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+            <span className="block sm:inline">{sizeError}</span>
+          </div>
+        )}
+        {inputValidation&& (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+            <span className="block sm:inline">{inputValidation}</span>
+          </div>
+        )}
         <button
           type="submit"
           className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300 mt-2 mb-4"
@@ -68,38 +74,7 @@ const Home = () => {
           </div>
         )}
       </form>
-      <div className="mx-auto">
-        <h2 className="text-xl font-bold mb-2">COLLECTION</h2>
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4 pt-6">
-          {pdfList.map((val) => (
-            <div
-              key={val._id}
-              className="border rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:scale-105"
-            >
-              <span className="block font-semibold mt-2">{val.title}</span>
-              <a
-                href={`http://localhost:3500/uploads/${val.fileName}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block"
-              >
-                <img
-                  src={
-                    `http://localhost:3500/${val.thumbnail.replace(
-                      ".png",
-                      ""
-                    )}` + `-1.png`
-                  }
-                  alt={val.title}
-                  className="w-full lg:h-[300px] md:h-[250px] rounded"
-                />
-
-                <span className="block text-sm text-gray-500 font-bold p-3">{`Uploaded By : ${val.uplodedPerson}`}</span>
-              </a>
-            </div>
-          ))}
-        </div>
-      </div>
+      <PdfList/>
     </div>
   );
 };
