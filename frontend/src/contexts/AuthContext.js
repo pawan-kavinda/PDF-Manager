@@ -15,7 +15,7 @@ export const reducer = (state, action) => {
 
 const AuthContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, { user: null });
-
+  
 
   //check when component first render weather token is in local storage and according to that update the state
   useEffect(()=>{

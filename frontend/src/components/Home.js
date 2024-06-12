@@ -3,13 +3,20 @@ import { PdfContext } from "../contexts/PdfContext";
 import useAuthContext from "../hooks/useAuthContext";
 import PdfList from "./pdf_components/PdfList";
 
-
 const Home = () => {
   const { user } = useAuthContext();
   const {
-    setTitle,setPdfFile,fetchPdf,onSubmit,title, fileInputRef,authError,inputValidation,onClickPdf,setOnClickPdf,
-    sizeError} = useContext(PdfContext);
- 
+    setTitle,
+    setPdfFile,
+    fetchPdf,
+    onSubmit,
+    title,
+    fileInputRef,
+    authError,
+    inputValidation,   
+    sizeError
+  } = useContext(PdfContext);
+
   const formRef = useRef(null);
 
   useEffect(() => {
@@ -25,19 +32,19 @@ const Home = () => {
   };
 
   return (
-    <div className="container mx-auto p-8 text-center">
-      <h1 className="text-2xl font-bold">UPLOAD</h1>
+    <div className="container mx-auto lg:p-8 p-2 bg-gradient-to-r from-sky-900 to-green-900 text-white text-center mt-16">
+      <h1 className="text-4xl font-bold mb-8">UPLOAD</h1>
       <form
         ref={formRef}
         onSubmit={handleSubmit}
-        className="mb-5 p-12 flex flex-col items-center"
+        className="mb-8 p-12 flex flex-col border-4 items-center bg-gray-400 rounded-lg shadow-md hover:shadow-lg"
       >
         <div className="flex flex-col mb-4 w-full md:w-[500px]">
           <input
             id="title"
             type="text"
             placeholder="Title"
-            className="px-3 py-2 w-full border border-gray-300 rounded"
+            className="px-3 py-2 w-full border-2 border-black rounded focus:outline-none text-black focus:ring focus:ring-indigo-500"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
@@ -47,7 +54,7 @@ const Home = () => {
             id="pdf"
             type="file"
             accept="application/pdf"
-            className="p-2 w-full border border-gray-300 rounded"
+            className="p-2 w-full border-2 border-black rounded"
             onChange={(e) => setPdfFile(e.target.files[0])}
             ref={fileInputRef}
           />
@@ -57,14 +64,14 @@ const Home = () => {
             <span className="block sm:inline">{sizeError}</span>
           </div>
         )}
-        {inputValidation&& (
+        {inputValidation && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
             <span className="block sm:inline">{inputValidation}</span>
           </div>
         )}
         <button
           type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300 mt-2 mb-4"
+          className="bg-gradient-to-br from-blue-950 to bg-green-600 text-white hover:border-none px-4 py-2 rounded hover:bg-blue-600 transition duration-300 mt-2 mb-4 w-72 lg:w-[500px]"
         >
           Submit
         </button>
@@ -74,7 +81,7 @@ const Home = () => {
           </div>
         )}
       </form>
-      <PdfList/>
+      <PdfList />
     </div>
   );
 };

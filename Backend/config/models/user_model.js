@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
-
+const { off } = require('./pdf_model')
+const validator = require('validator')
 const Schema = mongoose.Schema
 
 const userSchema = new Schema({
@@ -21,6 +22,17 @@ const userSchema = new Schema({
 
 //sign up operation
 userSchema.statics.signUp = async function(email,password,name){
+
+    //validation
+    if(!email || !password){
+        throw Error("All field must be filled")
+    }
+    if(!validator.isEmail(email)){
+        throw Error("Email must be Valid")
+    }
+    if(!validator.isStrongPassword(password)){
+        throw Error("Password is not strong enough")
+    }
     const existingUser = await this.findOne({email});
     if(existingUser){
         throw Error('Email is already registered')
@@ -39,7 +51,7 @@ userSchema.statics.signIn=async function(email,password){
     }
     const match = await bcrypt.compare(password,exsistingUser.password)
     if(!match){
-        throw Error('password incorrect')
+        throw Error('Incorrect Password! Try again')
     }
     return exsistingUser
 }
