@@ -18,7 +18,7 @@ function App() {
         <Route path="/" element={user?<Home />:<Navigate to='/signin'/>} />        
         <Route path="/signup" element={!user?<Registration />: <Navigate to='/'/>} />
         <Route path="/signin" element={!user?<Login/>:<Navigate to='/'/>} />
-        <Route path="/pdf-viewer" element={<PdfPage/>} />
+        <Route path="/pdf-viewer" element={!user?<Login/>:<PdfPage/>} />
       </Routes>
     
     </BrowserRouter>

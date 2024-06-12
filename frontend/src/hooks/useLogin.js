@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import useAuthContext from './useAuthContext';
-
+import { toast } from 'react-toastify';
 const useLogin = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -17,16 +17,18 @@ const useLogin = () => {
         body: JSON.stringify({ email, password }),
       }
     );
-    const json = await response.json(); //user data
+    const json = await response.json(); 
 
     if (!response.ok) {
       setIsLoading(false);
+      toast.error('An error occurred. Please try again.'); 
       setError(json.error);
     } else {
       localStorage.setItem("user", JSON.stringify(json)); // for storing the token inside local cache
       //update authcontext
       dispatch({ type: "LOGIN", payload: json });
       setIsLoading(false);
+      toast.success("Login successful!");
       console.log('AuthContext state: ', json);
     }
   };

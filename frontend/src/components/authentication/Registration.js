@@ -1,13 +1,13 @@
-import React from 'react';
-import { useState } from 'react';
-import useSignup from '../../hooks/useSignup';
-import useLogout from '../../hooks/useLogout'
+import React from "react";
+import { useState } from "react";
+import useSignup from "../../hooks/useSignup";
+
 const Registration = () => {
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
   const { signUp, error, isLoading } = useSignup();
-  const {logout} =useLogout()
+ 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,54 +15,74 @@ const Registration = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold text-center">Sign Up</h2>
-        <form className="space-y-4" onSubmit={handleSubmit}>
-            
-
-          <div>
-            <label className="block mb-1 text-sm font-medium text-gray-700">Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-indigo-100"
-              required
-            />
+    <div className="min-h-screen bg-gradient-to-r from-sky-900 to-green-900 text-gray-900 flex justify-center pt-20 px-8">
+      <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
+        <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
+          <div className="mt-12 flex flex-col items-center">
+            <h1 className="text-2xl xl:text-3xl font-extrabold">Sign Up</h1>
+            <div className="w-full flex-1 mt-8">
+              <div className="mx-auto max-w-xs">
+                <input
+                  className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Email"
+                />
+                <input
+                  className="w-full px-8 py-4 mt-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="User Name"
+                />
+                <input
+                  className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Password"
+                />
+                <button
+                  disabled={isLoading}
+                  onClick={handleSubmit}
+                  type="submit"
+                  className="mt-5 tracking-wide font-semibold bg-green-700 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                >
+                  <svg
+                    className="w-6 h-6 -ml-2"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                    <circle cx="8.5" cy="7" r="4" />
+                    <path d="M20 8v6M23 11h-6" />
+                  </svg>
+                  <span className="ml-3">Register</span>
+                </button>
+                {error && (
+                  <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4">
+                    {error}
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
-          <div>
-            <label className="block mb-1 text-sm font-medium text-gray-700">Username</label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-indigo-100"
-              required
-            />
-          </div>
-          <div>
-            <label className="block mb-1 text-sm font-medium text-gray-700">Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-indigo-100"
-              required
-            />
-          </div>
-          <button
-            disabled={isLoading}
-            type="submit"
-            className="w-full py-2 mt-4 text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-indigo-100"
-          >
-            Sign Up
-          </button>
-          {error && <div  className="bg-red-100 text-center border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">{error}</div>}
-        </form>
+        </div>
+        <div className="flex-1 bg-green-100 text-center hidden lg:flex">
+          <div
+            className="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat"
+            style={{
+              backgroundImage:
+                "url('https://storage.googleapis.com/devitary-image-host.appspot.com/15848031292911696601-undraw_designer_life_w96d.svg')"
+            }} 
+          ></div>
+        </div>
       </div>
     </div>
   );
 };
 
 export default Registration;
+

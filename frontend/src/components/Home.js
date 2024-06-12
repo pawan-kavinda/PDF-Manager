@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { PdfContext } from "../contexts/PdfContext";
 import useAuthContext from "../hooks/useAuthContext";
 import PdfList from "./pdf_components/PdfList";
@@ -11,10 +11,9 @@ const Home = () => {
     fetchPdf,
     onSubmit,
     title,
-    fileInputRef,
     authError,
-    inputValidation,   
-    sizeError
+    inputValidation,
+    sizeError,
   } = useContext(PdfContext);
 
   const formRef = useRef(null);
@@ -28,16 +27,18 @@ const Home = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await onSubmit(e);
+    setTitle('')
     formRef.current.reset();
   };
 
   return (
-    <div className="container mx-auto lg:p-8 p-2 bg-gradient-to-r from-sky-900 to-green-900 text-white text-center mt-16">
-      <h1 className="text-4xl font-bold mb-8">UPLOAD</h1>
+    <div className="container mx-auto lg:p-12 p-4 bg-gradient-to-r from-sky-900 to-green-900 text-white text-center mt-16 w-full">
+      <h1 className="text-4xl font-bold mb-8 text-gray-300">UPLOAD</h1>
       <form
         ref={formRef}
         onSubmit={handleSubmit}
-        className="mb-8 p-12 flex flex-col border-4 items-center bg-gray-400 rounded-lg shadow-md hover:shadow-lg"
+        className="mb-8 p-12 flex flex-col border-4 items-center bg-gray-400 rounded-lg shadow-md transform transition duration-300 hover:scale-105"
+
       >
         <div className="flex flex-col mb-4 w-full md:w-[500px]">
           <input
@@ -56,7 +57,6 @@ const Home = () => {
             accept="application/pdf"
             className="p-2 w-full border-2 border-black rounded"
             onChange={(e) => setPdfFile(e.target.files[0])}
-            ref={fileInputRef}
           />
         </div>
         {sizeError && (

@@ -22,7 +22,7 @@ const addUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password,name} = req.body;
     const signInUser = await User.signIn(email, password);
     const token = createToken(signInUser._id);
     res.status(200).json({ email, token,name });
