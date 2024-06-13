@@ -5,16 +5,7 @@ import PdfList from "./pdf_components/PdfList";
 
 const Home = () => {
   const { user } = useAuthContext();
-  const {
-    setTitle,
-    setPdfFile,
-    fetchPdf,
-    onSubmit,
-    title,
-    authError,
-    inputValidation,
-    sizeError,
-  } = useContext(PdfContext);
+  const { setTitle, setPdfFile, fetchPdf, onSubmit, title,authError, inputValidation, sizeError,} = useContext(PdfContext);
 
   const formRef = useRef(null);
 

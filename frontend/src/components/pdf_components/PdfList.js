@@ -50,21 +50,16 @@ const PdfList = () => {
             <Link
               to={`/pdf-viewer?pdfUrl=${encodeURIComponent(`http://localhost:3500/uploads/${val.fileName}`)}`}
               className="block"
-            >
-               <img
+            >               
+              <img
                 src={
-                  `http://localhost:3500/${val.thumbnail.replace(
-                    ".png",
-                    ""
-                  )}` + `-1.png`
+                    `http://localhost:3500/${val.thumbnail}`
                 }
                 alt={val.title}
                 className="w-full lg:h-[300px] md:h-[250px] rounded"
-              />  
-                     
-              
-            </Link>
-            <div className='text-black'>{val.uploadedPerson}</div>  
+              />                   
+                
+            </Link>        
           </div>
         ))}
       </div>

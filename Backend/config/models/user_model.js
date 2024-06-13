@@ -20,10 +20,11 @@ const userSchema = new Schema({
 },{timeseries:true})
 
 
-//sign up operation
+//----------------sign up operation------------------------------------
+
 userSchema.statics.signUp = async function(email,password,name){
 
-    //validation
+    //---------validation--------------
     if(!email || !password){
         throw Error("All field must be filled")
     }
@@ -37,13 +38,14 @@ userSchema.statics.signUp = async function(email,password,name){
     if(existingUser){
         throw Error('Email is already registered')
     }
-    const salt = await bcrypt.genSalt(10); // In case of same password of different users
+    const salt = await bcrypt.genSalt(10); // handling the same password of different users
     const hash = await bcrypt.hash(password,salt);
     const newUser = this.create({email,password:hash,name});
     return newUser
 }
 
-//sign in operation
+//---------------------sign in operation---------------------------------
+
 userSchema.statics.signIn=async function(email,password){
     const exsistingUser = await this.findOne({email})
     if(!exsistingUser){

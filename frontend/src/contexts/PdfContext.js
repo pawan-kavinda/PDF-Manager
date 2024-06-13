@@ -79,7 +79,7 @@ const PdfContextProvider = ({ children }) => {
       );
       toast.success("Successfully uploaded");
       console.log("success", result.data);
-      fetchPdf(); // Refresh the list after a successful upload
+      fetchPdf(); 
     } catch (error) {
       toast.error("Some error occurred");
       console.error(

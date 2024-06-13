@@ -14,14 +14,16 @@ const Navbar = () => {
 
   const handleLogout = () => {
     if (!toast.isActive(toastId.current)) {
-      // Check if a notification is already active
+
+      //--------- Check if a notification is already active-------------
+      
       toastId.current = toast.info(
         <div className="justify-between p-4">
           <p>Are you sure you want to logout?</p>
           <button
             onClick={() => {
               logout();
-              toast.dismiss(toastId.current); // Dismiss the notification after logout
+              toast.dismiss(toastId.current); // ----------Dismiss the notification after logout-----------
             }}
             className="text-white bg-red-600 py-2 px-4 rounded-md mr-2"
           >
@@ -42,7 +44,7 @@ const Navbar = () => {
           draggable: true,
           progress: undefined,
           closeButton: false,
-          onClose: () => toast.dismiss(toastId.current), // Dismiss the notification when closed
+          onClose: () => toast.dismiss(toastId.current), //----------- Dismiss the notification when closed-------------
         }
       );
     }
